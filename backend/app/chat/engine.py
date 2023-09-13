@@ -69,6 +69,7 @@ def get_s3_fs() -> AsyncFileSystem:
         secret=settings.AWS_SECRET,
         endpoint_url=settings.S3_ENDPOINT_URL,
     )
+    print(settings.AWS_KEY, settings.AWS_SECRET, settings.S3_ENDPOINT_URL)
     if not (settings.RENDER or s3.exists(settings.S3_BUCKET_NAME)):
         s3.mkdir(settings.S3_BUCKET_NAME)
     return s3
@@ -82,6 +83,7 @@ def fetch_and_read_document(
     with TemporaryDirectory() as temp_dir:
         temp_file_path = Path(temp_dir) / f"{str(document.id)}.pdf"
         with open(temp_file_path, "wb") as temp_file:
+            print(document.url)
             with requests.get(document.url, stream=True) as r:
                 r.raise_for_status()
                 for chunk in r.iter_content(chunk_size=8192):
