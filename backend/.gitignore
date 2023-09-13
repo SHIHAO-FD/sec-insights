@@ -163,3 +163,4 @@ storage/
 # created by localstack
 volume/
 data/
+docs/
